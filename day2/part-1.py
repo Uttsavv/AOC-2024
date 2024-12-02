@@ -18,16 +18,15 @@ def get_reports(inputFile: str) -> List[List[int]]:
 
 def isSafeReport(report: List[int]) -> bool:
     n = len(report)
-    if n <= 2:
-        return True
 
-    condition = bool(report[0] < report[1])
+    condition = report[0] - report[1]
 
-    for i in range(1, len(report)):
-        if abs(report[i - 1] - report[i]) not in [1, 2, 3]:
+    for i in range(1, n):
+        diff = report[i - 1] - report[i]
+        if not 1 <= abs(diff) <= 3:
             return False
 
-        if bool(report[i - 1] < report[i]) != condition:
+        if diff * condition <= 0:
             return False
 
     return True

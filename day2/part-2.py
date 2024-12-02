@@ -18,18 +18,26 @@ def get_reports(inputFile: str) -> List[List[int]]:
 
 def isSafeReport(report: List[int]) -> bool:
     n = len(report)
-    asc_damper = 1, dsc_damper = 1
-    if n <= 2:
-        return True
+    for i in range(n):
+        sub_report = report[:i] + report[i + 1 :]
+        m = len(sub_report)
 
-    for i in range(1, len(report)):
-        if abs(report[i - 1] - report[i]) not in [1, 2, 3] and damper:
-            return False
+        condition = sub_report[0] - sub_report[1]
+        isOk = True
+        for j in range(1, m):
+            diff = sub_report[j - 1] - sub_report[j]
+            if not 1 <= abs(diff) <= 3:
+                isOk = False
+                break
 
-        if bool(report[i - 1] < report[i]) != condition:
-            return False
+            if diff * condition <= 0:
+                isOk = False
+                break
 
-    return True
+        if isOk:
+            return True
+
+    return False
 
 
 def get_safe_reports(reports: List[List[str]]) -> int:
